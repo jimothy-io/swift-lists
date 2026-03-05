@@ -109,16 +109,6 @@ struct GroceryListView: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(
-        for: GroceryItem.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    let context = container.mainContext
-    for item in GroceryItem.previews {
-        context.insert(item)
-    }
-
-    return GroceryListView()
-        .modelContainer(container)
+    GroceryListView()
+        .modelContainer(PreviewContainer.groceries)
 }

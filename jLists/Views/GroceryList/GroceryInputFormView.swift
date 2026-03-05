@@ -142,5 +142,5 @@ struct GroceryInputFormView: View {
 #Preview {
     @Previewable @State var name = ""
     GroceryInputFormView(newItemName: $name)
-        .modelContainer(for: [GroceryItem.self, GroceryFavorite.self])
+        .modelContainer(PreviewContainer.groceries)
 }
