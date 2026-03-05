@@ -26,6 +26,8 @@ struct GroceryFavoritesListView: View {
                             Text(favorite.name)
                             Spacer()
                         }
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .swipeActions(edge: .trailing) {
