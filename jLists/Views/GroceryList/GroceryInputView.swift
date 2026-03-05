@@ -20,5 +20,5 @@ struct GroceryInputView: View {
 
 #Preview {
     GroceryInputView()
-        .modelContainer(PreviewContainer.chores)
+        .modelContainer(PreviewContainer.groceries)
 }

@@ -5,7 +5,6 @@
 //  Created by j on 05/03/2026.
 //
 
-
 import SwiftData
 import SwiftUI
 
@@ -110,16 +109,6 @@ struct ChoreListView: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(
-        for: GroceryItem.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    let context = container.mainContext
-    for item in GroceryItem.previews {
-        context.insert(item)
-    }
-
-    return ChoreListView()
-        .modelContainer(container)
+    ChoreListView()
+        .modelContainer(PreviewContainer.chores)
 }

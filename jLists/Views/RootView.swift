@@ -25,21 +25,7 @@ struct RootView: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(
-        for: GroceryItem.self,
-        GroceryFavorite.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    let context = container.mainContext
-    for item in GroceryItem.previews {
-        context.insert(item)
-    }
-    for favorite in GroceryFavorite.previews {
-        context.insert(favorite)
-    }
-
     return RootView()
-        .modelContainer(container)
+        .modelContainer(PreviewContainer.app)
 
 }
