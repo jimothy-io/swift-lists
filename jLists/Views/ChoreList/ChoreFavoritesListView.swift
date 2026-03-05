@@ -13,8 +13,43 @@ struct ChoreFavoritesListView: View {
 
     @Binding var newItemName: String
 
+    @Query(sort: [SortDescriptor(\ChoreFavorite.name)])
+    var favorites: [ChoreFavorite]
+
     var body: some View {
-        Text("Hello, World!")
+        List {
+            Section {
+                ForEach(favorites) { favorite in
+                    Button {
+                        newItemName = favorite.name
+                    } label: {
+                        HStack {
+                            Text(favorite.name)
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                deleteFavorite(favorite)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                }
+            } header: {
+                Label("Favorites", systemImage: "star.fill")
+                    .padding(.vertical, 3)
+            }
+        }
+    }
+
+    func deleteFavorite(_ favorite: ChoreFavorite) {
+        withAnimation {
+            modelContext.delete(favorite)
+        }
     }
 }
 
