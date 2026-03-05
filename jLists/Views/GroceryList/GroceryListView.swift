@@ -21,73 +21,77 @@ struct GroceryListView: View {
 
     var body: some View {
         NavigationStack {
-                List {
-                    ForEach(groceryItems) { item in
-                        Button {
-                            withAnimation {
-                                item.isChecked.toggle()
-                            }
-                        } label: {
-                            HStack(alignment: .center, spacing: 4) {
-                                Image(
-                                    systemName: item.isChecked
+            List {
+                ForEach(groceryItems) { item in
+                    Button {
+                        withAnimation {
+                            item.isChecked.toggle()
+                        }
+                    } label: {
+                        HStack(alignment: .center, spacing: 4) {
+                            Image(
+                                systemName: item.isChecked
                                     ? "checkmark.circle.fill" : "circle"
-                                )
-                                .foregroundStyle(item.isChecked ? .primary : .secondary)
-                                .padding(.trailing, 6)
-                                
-                                let quantityText =
+                            )
+                            .foregroundStyle(
+                                item.isChecked ? .primary : .secondary
+                            )
+                            .padding(.trailing, 6)
+
+                            let quantityText =
                                 item.quantity > 0
                                 ? Text("\(item.quantity) ×")
                                     .foregroundStyle(.secondary)
                                     .font(.subheadline)
                                 : Text("")
-                                let nameText = Text(item.name)
-                                    .foregroundStyle(
-                                        item.isChecked ? .secondary : .primary
-                                    )
-                                    .fontWeight(item.urgency > 0 ? .semibold : .regular)
-                                
-                                Text("\(quantityText) \(nameText)")
-                                    .strikethrough(item.isChecked)
-                                
-                                Spacer()
-                            }
-                            .background(
-                                item.urgency > 0
+                            let nameText = Text(item.name)
+                                .foregroundStyle(
+                                    item.isChecked ? .secondary : .primary
+                                )
+                                .fontWeight(
+                                    item.urgency > 0 ? .semibold : .regular
+                                )
+
+                            Text("\(quantityText) \(nameText)")
+                                .strikethrough(item.isChecked)
+
+                            Spacer()
+                        }
+                        .background(
+                            item.urgency > 0
                                 ? Color.red.opacity(0.15)
                                 : Color.clear
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .contentShape(Rectangle())
-                        }
-                        .buttonStyle(.plain)
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    deleteItem(item)
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                deleteItem(item)
                             }
-                        }
-                    }
-                    
-                    Spacer()
-                }
-                .listStyle(.plain)
-                .padding()
-                .navigationTitle("Groceries")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showingAddItem = true
                         } label: {
-                            Image(systemName: "plus")
+                            Label("Delete", systemImage: "trash")
                         }
                     }
                 }
+
+                Spacer()
+            }
+            .listStyle(.plain)
+            .padding()
+            .navigationTitle("Groceries")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingAddItem = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
 
         }
         .sheet(isPresented: $showingAddItem) {
