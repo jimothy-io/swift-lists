@@ -12,17 +12,17 @@ struct ChoreListView: View {
     @Environment(\.modelContext) private var modelContext
 
     @Query(sort: [
-        SortDescriptor(\GroceryItem.urgency, order: .reverse),
-        SortDescriptor(\GroceryItem.name),
+        SortDescriptor(\ChoreItem.priorityValue, order: .reverse),
+        SortDescriptor(\ChoreItem.name),
     ])
-    var groceryItems: [GroceryItem]
+    var choreItems: [ChoreItem]
 
     @State private var showingAddItem: Bool = false
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(groceryItems) { item in
+                ForEach(choreItems) { item in
                     Button {
                         withAnimation {
                             item.isChecked.toggle()
@@ -38,29 +38,23 @@ struct ChoreListView: View {
                             )
                             .padding(.trailing, 6)
 
-                            let quantityText =
-                                item.quantity > 0
-                                ? Text("\(item.quantity) ×")
-                                    .foregroundStyle(.secondary)
-                                    .font(.subheadline)
-                                : Text("")
-                            let nameText = Text(item.name)
+                            Image(systemName: priorityIcon(item.priority))
+                                .foregroundStyle(priorityColor(item.priority))
+                                .frame(width: 20)
+
+                            Text(item.name)
                                 .foregroundStyle(
                                     item.isChecked ? .secondary : .primary
                                 )
                                 .fontWeight(
-                                    item.urgency > 0 ? .semibold : .regular
+                                    priorityFontWeight(item.priority)
                                 )
-
-                            Text("\(quantityText) \(nameText)")
                                 .strikethrough(item.isChecked)
 
                             Spacer()
                         }
                         .background(
-                            item.urgency > 0
-                                ? Color.red.opacity(0.15)
-                                : Color.clear
+
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         .contentShape(Rectangle())
@@ -81,7 +75,7 @@ struct ChoreListView: View {
             }
             .listStyle(.plain)
             .padding()
-            .navigationTitle("Groceries")
+            .navigationTitle("Chores")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -95,16 +89,40 @@ struct ChoreListView: View {
 
         }
         .sheet(isPresented: $showingAddItem) {
-            GroceryInputView()
+            ChoreInputView()
         }
     }
 
-    func deleteItem(_ item: GroceryItem) {
+    func deleteItem(_ item: ChoreItem) {
         modelContext.delete(item)
     }
 
     func showInputView() {
         showingAddItem = true
+    }
+
+    func priorityColor(_ priority: ChorePriority) -> Color {
+        switch priority {
+        case .low: return .secondary
+        case .medium: return .orange
+        case .high: return .red
+        }
+    }
+
+    func priorityIcon(_ priority: ChorePriority) -> String {
+        switch priority {
+        case .low: return "chevron.down"
+        case .medium: return "minus"
+        case .high: return "chevron.up"
+        }
+    }
+
+    func priorityFontWeight(_ priority: ChorePriority) -> Font.Weight {
+        switch priority {
+        case .low: return .light
+        case .medium: return .regular
+        case .high: return .semibold
+        }
     }
 }
 
