@@ -16,7 +16,7 @@ struct RootView: View {
                     Label("Groceries", systemImage: "cart")
                 }
 
-            GroceryListView()
+            ChoreListView()
                 .tabItem {
                     Label("Chores", systemImage: "checklist")
                 }

@@ -29,7 +29,6 @@ struct GroceryInputFormView: View {
                 TextField("New Item", text: $newItemName)
 
                 Divider()
-                    .padding(.horizontal)
                     .padding(.vertical, 5)
 
                 HStack {
@@ -45,8 +44,7 @@ struct GroceryInputFormView: View {
                 Divider()
 
                 HStack {
-                    Text("Quantity:")
-                        .fontWeight(.regular)
+                    Text("Quantity")
                     Text("\(quantity)")
                         .fontWeight(.medium)
                         .frame(width: 24, alignment: .trailing)
@@ -64,10 +62,6 @@ struct GroceryInputFormView: View {
                 HStack {
                     Button {
                         clearInputs()
-                        for item in groceryItems {
-                            deleteItem(item)
-                        }
-
                     } label: {
                         Text("Clear")
                     }
@@ -88,6 +82,7 @@ struct GroceryInputFormView: View {
                             in: .whitespacesAndNewlines
                         ).count < 2
                     )
+                    .buttonStyle(.borderedProminent)
                 }
             }
             .padding()
