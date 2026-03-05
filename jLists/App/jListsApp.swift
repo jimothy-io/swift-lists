@@ -13,7 +13,9 @@ struct jListsApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             GroceryItem.self,
-            GroceryFavorite.self
+            GroceryFavorite.self,
+            ChoreItem.self,
+            ChoreFavorite.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
